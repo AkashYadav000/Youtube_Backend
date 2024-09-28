@@ -1,4 +1,3 @@
-
 import multer from 'multer';
 import path from 'path';
 
@@ -8,7 +7,7 @@ const storage = multer.diskStorage({
         cb(null, 'public/temp'); // Folder to temporarily store files
     },
     filename: function (req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`);
+        cb(null, `${Date.now()}-${file.originalname}`); // Unique filename
     }
 });
 
@@ -24,18 +23,17 @@ const checkFileType = (file, cb) => {
     if (extname && mimetype) {
         return cb(null, true); // If both checks pass, accept the file
     } else {
-        cb(new Error('Invalid file type. Only JPEG, PNG, GIF, and PDF are allowed.'), false); // If not, reject the file
+        cb(new Error('Invalid file type. Only JPEG, PNG, GIF, and PDF are allowed.'), false); // Reject file
     }
 };
-``
+
 // Create multer instance with storage and file filter
 export const upload = multer({
-    storage,
+    storage,  // Use the defined storage
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb); // Use file type checker in fileFilter
     }
-});
-
+}); // No fields here, just the upload middleware
 
 
 
