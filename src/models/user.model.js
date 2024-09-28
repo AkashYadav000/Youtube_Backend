@@ -1,3 +1,6 @@
+
+
+
 import mongoose,{Schema} from "mongoose";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
@@ -29,15 +32,15 @@ const UserSchema=new Schema(
             lowercase:true,
             trim:true,
         },
-        avtar:{
+        avatar:{
             type:String,//cloudinary url            required:true,
            required:true
         },
-        coverimage:{
+        coverImage:{
             type:String,//cloudinary url            required:true,
            
         },
-        wtachhistory:[
+        watchhistory:[
             {
                 type:Schema.Types.ObjectId,
                 ref:"Video"
@@ -60,7 +63,7 @@ UserSchema.pre("save",async function(next)
 {
 
 if(!this.isModified("password")) return next();
-    this.password=bcrypt.hash(this.password,10)
+    this.password=await bcrypt.hash(this.password,10)
 next()
 }
 )
@@ -93,4 +96,4 @@ process.env.REFRESH_TOKEN_SECRET,{
 })
 }
 
-export const user=mongoose.model("User",UserSchema)
+export const User=mongoose.model("User",UserSchema)
